@@ -1,0 +1,15 @@
+.git
+.gitignore
+
+.venv/
+__pycache__/
+*.pyc
+
+.ipynb_checkpoints/
+*.ipynb
+
+.vscode/
+
+README.md
+
+.env
