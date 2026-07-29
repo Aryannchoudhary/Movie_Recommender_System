@@ -4,9 +4,7 @@ import streamlit as st
 from src.config import OMDB_API_KEY, OMDB_BASE_URL
 
 
-# ---------------------------------------------------------
 # Cached API Request
-# ---------------------------------------------------------
 
 @st.cache_data(ttl=86400, show_spinner=False)
 def fetch_movie(api_key: str, base_url: str, title: str):
@@ -70,9 +68,7 @@ def fetch_movie(api_key: str, base_url: str, title: str):
         }
 
 
-# ---------------------------------------------------------
 # OMDb Client
-# ---------------------------------------------------------
 
 class OMDbClient:
     """

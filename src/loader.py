@@ -42,15 +42,6 @@ def load_cf_model():
 
 @st.cache_resource
 def load_train_interaction_counts():
-    """
-    Needed for the hybrid router's warm/cold check. Tries a few things,
-    in order, so this doesn't hard-crash the whole app if it's missing:
-
-    1. A precomputed {user_id: count} dict pickle (fastest, if you saved one)
-    2. The raw train interactions CSV -> derive counts with value_counts()
-    3. Neither found -> return {} (every user will be treated as cold,
-       which is a safe default, just less useful than having real counts)
-    """
     if os.path.exists(TRAIN_INTERACTION_COUNTS_PATH):
         with open(TRAIN_INTERACTION_COUNTS_PATH, "rb") as file:
             return pickle.load(file)
@@ -67,13 +58,6 @@ def load_train_interaction_counts():
 
 @st.cache_resource
 def load_embed_model():
-    """
-    Needed for the genre-profile cold-start path (embedding a synthetic
-    'taste query' from a user's stated genre preferences). If this fails to
-    load (e.g. no internet on first run to fetch the model), the app still
-    works -- it just falls back to simple substring genre filtering instead
-    of semantic genre matching.
-    """
     try:
         from sentence_transformers import SentenceTransformer
         return SentenceTransformer(EMBEDDING_MODEL)
