@@ -1,6 +1,11 @@
-# 🎬 Movie Recommendation System
+### **🎬 Hybrid Movie Recommendation System** | **Python, FAISS, Sentence-Transformers, Scikit-learn, Streamlit, Docker, AWS EC2**
 
-A content-based Movie Recommendation System built using Machine Learning that recommends similar movies based on user selection. The application is deployed on AWS EC2 using Docker and displays movie posters using the OMDb API.
+* Built a hybrid movie recommendation system that combines **semantic content-based retrieval** using **Sentence-Transformers** and **FAISS** with **collaborative filtering (SVD)** to provide personalized movie recommendations.
+* Implemented intelligent recommendation routing based on user interaction history and addressed the **cold-start problem** with a content-based fallback strategy for new users and movies.
+* Integrated the **OMDb API** to dynamically fetch and display movie posters and metadata, enhancing the user experience with rich visual recommendations.
+* Containerized the application using **Docker** and deployed it on an **AWS EC2** instance with **Streamlit**, securely managing API keys through environment variables and optimizing performance with cached model loading.
+* Designed an interactive web interface that delivers fast, scalable, and user-friendly movie recommendations in real time.
+
 
 ---
 
@@ -35,6 +40,8 @@ A content-based Movie Recommendation System built using Machine Learning that re
 - Scikit-learn
 - Pandas
 - NumPy
+- FAISS
+- Sentence Transformers
 
 ### Visualization
 
@@ -81,26 +88,52 @@ Movie_Recommender_System/
 
 ## 🧠 Machine Learning Workflow
 
+## 🧠 Machine Learning Workflow
+
+```text
+                         Movie Dataset (TMDB)
+                                 │
+                                 ▼
+                  Data Cleaning & Preprocessing
+                                 │
+                                 ▼
+                      Feature Engineering
+                 (Genres, Overview, Keywords, Tags)
+                                 │
+             ┌───────────────────┴───────────────────┐
+             ▼                                       ▼
+     Content-Based Filtering             Collaborative Filtering
+             │                                       │
+             ▼                                       ▼
+   Sentence-Transformer Embeddings       User-Movie Ratings Matrix
+             │                                       │
+             ▼                                       ▼
+      FAISS Vector Index                 SVD Matrix Factorization
+   (Semantic Similarity Search)            (Surprise Library)
+             │                                       │
+             └───────────────────┬───────────────────┘
+                                 ▼
+                        Hybrid Recommendation Engine
+               (Routes users based on interaction history)
+                                 │
+         ┌───────────────────────┼────────────────────────┐
+         ▼                       ▼                        ▼
+     Warm User              Cold/New User           No Interaction
+         │                       │                        │
+         ▼                       ▼                        ▼
+  SVD Recommendations     Content-Based Search    Popularity-Based Results
+         │                       │                        │
+         └───────────────────────┼────────────────────────┘
+                                 ▼
+                  OMDb API (Movie Posters & Metadata)
+                                 │
+                                 ▼
+                    Streamlit Web Application (UI)
+                                 │
+                                 ▼
+                    Docker Container → AWS EC2 Instance
 ```
-Movie Dataset
-      │
-      ▼
-Data Cleaning
-      │
-      ▼
-Feature Engineering
-      │
-      ▼
-Vectorization
-      │
-      ▼
-Cosine Similarity Matrix
-      │
-      ▼
-Recommendation Engine
-      │
-      ▼
-Streamlit Application
+
 ```
 
 ---
