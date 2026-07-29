@@ -107,9 +107,6 @@ def load_train_interaction_counts():
         return train_df["user_id"].value_counts().to_dict()
 
     st.warning(
-        "No train interaction counts found (checked both "
-        f"{os.path.basename(TRAIN_INTERACTION_COUNTS_PATH)} and "
-        f"{os.path.basename(TRAIN_INTERACTIONS_CSV_PATH)}). "
         "Every user will be treated as cold until this is added."
     )
     return {}
