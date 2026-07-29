@@ -15,26 +15,24 @@ jobs:
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.2.0
-
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-
           script: |
-            cd ~/Movie_Recommender_System
+            cd /home/ubuntu/Movie_Recommender_System
 
-            echo "Pulling latest code..."
+            echo "Pull latest code..."
             git pull origin main
 
-            echo "Stopping old container..."
+            echo "Build Docker image..."
+            docker build -t movie-recommender .
+
+            echo "Stop old container..."
             docker stop movie-app || true
             docker rm movie-app || true
 
-            echo "Building Docker image..."
-            docker build -t movie-recommender .
-
-            echo "Starting new container..."
+            echo "Run new container..."
             docker run -d \
               --name movie-app \
               --restart unless-stopped \
@@ -43,3 +41,4 @@ jobs:
               movie-recommender
 
             echo "Deployment completed successfully!"
+            
