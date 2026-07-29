@@ -159,7 +159,6 @@ Movie_Recommender_System/
                  OMDb Movie API
 ```
 
----
 
 ## 🐳 Docker Deployment
 
