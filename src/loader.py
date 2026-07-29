@@ -128,7 +128,11 @@ def load_embed_model():
         from sentence_transformers import SentenceTransformer
         return SentenceTransformer(EMBEDDING_MODEL)
     except Exception as e:
-        st.warning(f"Could not load embedding model ({e}). Genre search will use simple keyword matching instead.")
+        st.warning(f"Could not load embedding model ({e})."
+                   " Genre search will use simple keyword matching instead."
+                   "(We skipped a larger AI library here to keep the app light and fast on our current hosting —"
+                   "keyword-based genre matching is used instead of deep semantic search."
+                   )
         return None
 
 
