@@ -202,8 +202,9 @@ OMDB_API_KEY=YOUR_API_KEY
 
 **Aryan Choudhary**
 
-- GitHub: https://github.com/YOUR_USERNAME
-- LinkedIn: https://linkedin.com/in/YOUR_PROFILE
+- GitHub: https://github.com/Aryannchoudhary
+- LinkedIn: https://linkedin.com/in/aryan176
+
 
 ---
 
