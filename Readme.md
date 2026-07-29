@@ -232,7 +232,7 @@ OMDB_API_KEY=YOUR_API_KEY
 
 ## 👨‍💻 Author
 
-**Aryan Choudhary**
+**Aryan**
 
 - GitHub: https://github.com/Aryannchoudhary
 - LinkedIn: https://linkedin.com/in/aryan176
