@@ -1,11 +1,8 @@
-### **🎬 Hybrid Movie Recommendation System** | **Python, FAISS, Sentence-Transformers, Scikit-learn, Streamlit, Docker, AWS EC2**
+# 🎬 Hybrid Movie Recommendation System
 
-* Built a hybrid movie recommendation system that combines **semantic content-based retrieval** using **Sentence-Transformers** and **FAISS** with **collaborative filtering (SVD)** to provide personalized movie recommendations.
-* Implemented intelligent recommendation routing based on user interaction history and addressed the **cold-start problem** with a content-based fallback strategy for new users and movies.
-* Integrated the **OMDb API** to dynamically fetch and display movie posters and metadata, enhancing the user experience with rich visual recommendations.
-* Containerized the application using **Docker** and deployed it on an **AWS EC2** instance with **Streamlit**, securely managing API keys through environment variables and optimizing performance with cached model loading.
-* Designed an interactive web interface that delivers fast, scalable, and user-friendly movie recommendations in real time.
+An end-to-end **Hybrid Movie Recommendation System** that combines **Content-Based Filtering** and **Collaborative Filtering** to deliver personalized movie recommendations. The application intelligently switches between recommendation strategies based on user interaction history, solving the cold-start problem while maintaining recommendation quality.
 
+The project is fully **Dockerized**, **deployed on AWS EC2**, and integrated with **GitHub Actions CI/CD** for automatic deployments.
 
 ---
 
@@ -15,39 +12,242 @@
 
 ---
 
-
-
 ## ✨ Features
 
-- 🎥 Content-Based Movie Recommendation
-- 🔍 Search from thousands of movies
-- 🖼️ Dynamic movie posters using OMDb API
-- ⚡ Fast recommendation generation
-- 🐳 Dockerized application
+- 🎯 Hybrid recommendation engine (Content-Based + Collaborative Filtering)
+- 🔍 Semantic movie search using Sentence Transformers
+- ⚡ Fast similarity search with FAISS
+- ⭐ Personalized recommendations using SVD Matrix Factorization
+- 🆕 Cold-start handling for new users
+- 🎭 Genre-based fallback recommendations
+- 📊 Popularity-based recommendations when no user history exists
+- 🖼️ Movie posters and metadata using the OMDb API
+- 💾 Cached model loading for faster performance
+- 🐳 Dockerized application for portability
 - ☁️ Deployed on AWS EC2
-- 🎨 Interactive Streamlit UI
+- 🔄 Automated CI/CD pipeline with GitHub Actions
 
 ---
 
-## 🛠️ Tech Stack
+# 🏗️ Project Architecture
 
-### Programming Language
+```
+                        User
+                          │
+                          ▼
+                 Streamlit Web App
+                          │
+         ┌────────────────┴────────────────┐
+         ▼                                 ▼
+ Content-Based Engine          Collaborative Engine
+         │                                 │
+ Sentence Transformers             Surprise (SVD)
+         │                                 │
+      FAISS Index                  User Ratings
+         │                                 │
+         └───────────────┬─────────────────┘
+                         ▼
+                 Hybrid Recommendation
+                         │
+                         ▼
+                OMDb API Integration
+                  (Movie Posters)
+```
 
-- Python
+---
+
+# 🧠 Machine Learning Workflow
+
+```
+                              Movie Dataset (TMDB)
+                                      │
+                                      ▼
+                              Data Cleaning &
+                            Deduplication
+                                      │
+                                      ▼
+                            Feature Engineering
+                          (genres, overview, tags)
+                                      │
+                ┌─────────────────────┴─────────────────────┐
+                ▼                                             ▼
+      Content-Based Path                          Collaborative Path
+                │                                             │
+                ▼                                             ▼
+      Sentence-Transformer                         User-Item Interactions
+         Embeddings                                (ratings / watch history)
+                │                                             │
+                ▼                                             ▼
+        FAISS Vector Index                          Train/Test Split
+      (semantic similarity                       (warm users vs. held-out
+         search)                                   cold users & cold items)
+                │                                             │
+                │                                             ▼
+                │                                    SVD Matrix Factorization
+                │                                        (Surprise)
+                │                                             │
+                └─────────────────────┬─────────────────────┘
+                                      ▼
+                          Hybrid Router
+                (Warm User / Cold User Detection)
+                                      │
+                ┌─────────────────────┼─────────────────────┐
+                ▼                     ▼                     ▼
+        Warm User              Cold User              No User History
+             │                      │                      │
+             ▼                      ▼                      ▼
+ Collaborative Filtering     Content-Based        Popularity-Based
+  Recommendations           Recommendations      Recommendations
+                │                     │                     │
+                └─────────────────────┼─────────────────────┘
+                                      ▼
+                           Streamlit Web Application
+```
+
+---
+
+# ☁️ Deployment Architecture
+
+```
+                   ┌───────────────────┐
+                   │     Developer     │
+                   └─────────┬─────────┘
+                             │
+                      git push origin main
+                             │
+                             ▼
+                   ┌───────────────────┐
+                   │ GitHub Repository │
+                   └─────────┬─────────┘
+                             │
+                             ▼
+                 ┌────────────────────────┐
+                 │ GitHub Actions (CI/CD) │
+                 └─────────┬──────────────┘
+                           │
+                     SSH Deployment
+                           │
+                           ▼
+                 ┌────────────────────────┐
+                 │ AWS EC2 (Ubuntu)       │
+                 └─────────┬──────────────┘
+                           │
+                    git pull origin main
+                           │
+                    docker build
+                           │
+               Stop Old Docker Container
+                           │
+               Start New Docker Container
+                           │
+                           ▼
+                 ┌────────────────────────┐
+                 │ Streamlit Application  │
+                 │      Port : 8501       │
+                 └─────────┬──────────────┘
+                           │
+                           ▼
+                 ┌────────────────────────┐
+                 │      OMDb API          │
+                 │ Posters & Metadata     │
+                 └────────────────────────┘
+```
+
+---
+
+# 🔄 CI/CD Pipeline
+
+The project uses **GitHub Actions** to automate deployments. Every push to the `main` branch automatically updates the application running on the AWS EC2 instance.
+
+## Workflow
+
+```
+Developer
+    │
+    ▼
+git push origin main
+    │
+    ▼
+GitHub Repository
+    │
+    ▼
+GitHub Actions
+    │
+    ▼
+SSH into AWS EC2
+    │
+    ▼
+Pull Latest Code
+    │
+    ▼
+Build Docker Image
+    │
+    ▼
+Stop Existing Container
+    │
+    ▼
+Start New Container
+    │
+    ▼
+Updated Streamlit Application
+```
+
+### CI/CD Features
+
+- Automatic deployment on every push to `main`
+- Secure SSH authentication using GitHub Secrets
+- Automatic Docker image rebuild
+- Automatic container restart
+- No manual deployment required
+- Secure environment variable management using `.env`
+
+---
+
+# 📂 Project Structure
+
+```
+Movie_Recommender_System/
+│
+├── models/
+│   ├── faiss_index.bin
+│   ├── sentence_embeddings.pkl
+│   ├── svd_model.pkl
+│   └── ...
+│
+├── src/
+│   ├── recommender.py
+│   ├── preprocessing.py
+│   ├── utils.py
+│   └── ...
+│
+├── screenshots/
+│
+├── app.py
+├── requirements.txt
+├── Dockerfile
+├── README.md
+└── .github/
+    └── workflows/
+        └── deploy.yml
+```
+
+---
+
+# 🛠️ Tech Stack
 
 ### Machine Learning
 
+- Python
 - Scikit-learn
-- Pandas
-- NumPy
-- FAISS
 - Sentence Transformers
+- FAISS
+- Surprise (SVD)
 
-### Visualization
+### Web Application
 
 - Streamlit
 
-### API
+### APIs
 
 - OMDb API
 
@@ -55,152 +255,48 @@
 
 - Docker
 - AWS EC2
-- Linux (Ubuntu)
+- GitHub Actions
+
+### Version Control
+
+- Git
+- GitHub
 
 ---
 
-## 📂 Project Structure
+# 📊 Recommendation Strategy
 
-```
-Movie_Recommender_System/
-│
-├── app.py
-├── requirements.txt
-├── Dockerfile
-├── movies.pkl
-├── similarity.pkl
-├── README.md
-├── screenshots/
-└── assets/
-```
+| Scenario | Recommendation Method |
+|----------|------------------------|
+| Existing User | Collaborative Filtering (SVD) |
+| New User | Content-Based Filtering |
+| New Movie | Semantic Similarity Search |
+| No User History | Popularity-Based Recommendations |
 
 ---
 
-## ⚙️ How It Works
+# ⚙️ Installation
 
-1. User selects a movie.
-2. The system finds similar movies using cosine similarity.
-3. Recommended movie titles are generated.
-4. OMDb API fetches movie posters.
-5. Results are displayed in the Streamlit interface.
-
----
-
-## 🧠 Machine Learning Workflow
-
-## 🧠 Machine Learning Workflow
-
-```text
-                         Movie Dataset (TMDB)
-                                 │
-                                 ▼
-                  Data Cleaning & Preprocessing
-                                 │
-                                 ▼
-                      Feature Engineering
-                 (Genres, Overview, Keywords, Tags)
-                                 │
-             ┌───────────────────┴───────────────────┐
-             ▼                                       ▼
-     Content-Based Filtering             Collaborative Filtering
-             │                                       │
-             ▼                                       ▼
-   Sentence-Transformer Embeddings       User-Movie Ratings Matrix
-             │                                       │
-             ▼                                       ▼
-      FAISS Vector Index                 SVD Matrix Factorization
-   (Semantic Similarity Search)            (Surprise Library)
-             │                                       │
-             └───────────────────┬───────────────────┘
-                                 ▼
-                        Hybrid Recommendation Engine
-               (Routes users based on interaction history)
-                                 │
-         ┌───────────────────────┼────────────────────────┐
-         ▼                       ▼                        ▼
-     Warm User              Cold/New User           No Interaction
-         │                       │                        │
-         ▼                       ▼                        ▼
-  SVD Recommendations     Content-Based Search    Popularity-Based Results
-         │                       │                        │
-         └───────────────────────┼────────────────────────┘
-                                 ▼
-                  OMDb API (Movie Posters & Metadata)
-                                 │
-                                 ▼
-                    Streamlit Web Application (UI)
-                                 │
-                                 ▼
-                    Docker Container → AWS EC2 Instance
-```
-
-```
-
----
-
-## ☁️ Deployment Architecture
-
-```
-                    GitHub
-                       │
-                       ▼
-                 Docker Image
-                       │
-                       ▼
-                AWS EC2 Instance
-                       │
-                       ▼
-                Docker Container
-                       │
-                       ▼
-             Streamlit Application
-                       │
-                       ▼
-                 OMDb Movie API
-```
-
-
-## 🐳 Docker Deployment
-
-### Build Docker Image
+## Clone Repository
 
 ```bash
-docker build -t movie-recommender .
-```
-
-### Run Container
-
-```bash
-docker run -d \
---name movie-app \
--p 8501:8501 \
--e OMDB_API_KEY=YOUR_API_KEY \
-movie-recommender
-```
-
----
-
-## 💻 Local Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/Movie_Recommender_System.git
-```
-
-Move into the project
-
-```bash
+git clone https://github.com/<your-username>/<repository>.git
 cd Movie_Recommender_System
 ```
 
-Install dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the application
+## Create Environment File
+
+```env
+OMDB_API_KEY=YOUR_OMDB_API_KEY
+```
+
+## Run Application
 
 ```bash
 streamlit run app.py
@@ -208,36 +304,47 @@ streamlit run app.py
 
 ---
 
-## 🔑 Environment Variables
+# 🐳 Docker
 
-Create an environment variable:
+## Build Image
 
+```bash
+docker build -t movie-recommender .
 ```
-OMDB_API_KEY=YOUR_API_KEY
+
+## Run Container
+
+```bash
+docker run -d \
+--name movie-app \
+-p 8501:8501 \
+--env-file .env \
+movie-recommender
 ```
 
 ---
 
-## 📈 Future Improvements
+
+# 📈 Future Improvements
 
 - User authentication
-- Movie ratings integration
-- Genre-based filtering
-- Trending movies
-- TMDB integration
-- Personalized recommendations
-- Custom domain deployment
+- User profiles
+- Watchlist functionality
+- Movie trailer integration
+- Multi-language support
+- Kubernetes deployment
+- Monitoring with Prometheus & Grafana
+- HTTPS with Nginx and Let's Encrypt
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-**Aryan**
+**Aryan Choudhary**
 
 - GitHub: https://github.com/Aryannchoudhary
 - LinkedIn: https://linkedin.com/in/aryan176
 
-
 ---
 
-## ⭐ If you found this project helpful, consider giving it a star!
+## ⭐ If you found this project useful, consider giving it a star!
